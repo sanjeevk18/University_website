@@ -12,10 +12,13 @@ export default function ExaminationForm() {
     subjects: [] as string[],
     // Fee Details
     examFee: '', lateFee: '', totalFee: '',
+    // Payment Details
+    paymentMode: '', transactionId: '',
   });
 
   const [docs, setDocs] = useState({
     idCard: null as File | null,
+    feeReceipt: null as File | null,
   });
 
   const [loading, setLoading] = useState(false);
