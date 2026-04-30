@@ -5,35 +5,35 @@ import { getDashboardStats } from '@/store';
 
 export default function OverviewTab() {
   const dashboardStats = getDashboardStats();
-  
+
   const stats = [
-    { 
-      label: 'Total Students', 
-      value: dashboardStats.totalStudents.toString(), 
-      icon: '👥', 
-      color: 'bg-blue-500', 
-      change: `${dashboardStats.activeStudents} Active` 
+    {
+      label: 'Total Students',
+      value: dashboardStats.totalStudents.toString(),
+      icon: '👥',
+      color: 'bg-blue-500',
+      change: `${dashboardStats.activeStudents} Active`
     },
-    { 
-      label: 'Active Courses', 
-      value: dashboardStats.totalCourses.toString(), 
-      icon: '📚', 
-      color: 'bg-green-500', 
-      change: 'Running' 
+    {
+      label: 'Active Courses',
+      value: dashboardStats.totalCourses.toString(),
+      icon: '📚',
+      color: 'bg-green-500',
+      change: 'Running'
     },
-    { 
-      label: 'Total Revenue', 
-      value: `₹${(dashboardStats.totalRevenue / 100000).toFixed(1)}L`, 
-      icon: '💰', 
-      color: 'bg-purple-500', 
-      change: `₹${(dashboardStats.pendingFees / 1000).toFixed(0)}K Pending` 
+    {
+      label: 'Total Revenue',
+      value: `₹${(dashboardStats.totalRevenue / 100000).toFixed(1)}L`,
+      icon: '💰',
+      color: 'bg-purple-500',
+      change: `₹${(dashboardStats.pendingFees / 1000).toFixed(0)}K Pending`
     },
-    { 
-      label: 'Staff Members', 
-      value: dashboardStats.totalStaff.toString(), 
-      icon: '👨‍🏫', 
-      color: 'bg-orange-500', 
-      change: 'Active' 
+    {
+      label: 'Staff Members',
+      value: dashboardStats.totalStaff.toString(),
+      icon: '👨‍🏫',
+      color: 'bg-orange-500',
+      change: 'Active'
     },
   ];
 
@@ -126,11 +126,10 @@ export default function OverviewTab() {
                 <div className="flex-1">
                   <p className="text-sm font-semibold text-gray-800">{task.title}</p>
                   <p className="text-xs text-gray-600 mt-1">
-                    Priority: <span className={`font-semibold ${
-                      task.priority === 'High' ? 'text-red-600' :
-                      task.priority === 'Medium' ? 'text-orange-600' :
-                      'text-green-600'
-                    }`}>{task.priority}</span>
+                    Priority: <span className={`font-semibold ${task.priority === 'High' ? 'text-red-600' :
+                        task.priority === 'Medium' ? 'text-orange-600' :
+                          'text-green-600'
+                      }`}>{task.priority}</span>
                   </p>
                 </div>
                 <span className="px-3 py-1 bg-purple-600 text-white rounded-full text-xs font-bold">
