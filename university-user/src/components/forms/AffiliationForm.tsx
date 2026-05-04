@@ -4,17 +4,42 @@ import React, { useState } from 'react';
 
 export default function AffiliationForm() {
   const [form, setForm] = useState({
-    instituteName: '', instituteType: '', estYear: '', website: '',
-    principalName: '', principalMobile: '', principalEmail: '',
-    address: '', state: '', city: '', pincode: '',
-    programs: '', totalSeats: '', labFacility: '', hostelFacility: '',
+    // Institute Details
+    instituteOwnerName: '',
+    instituteName: '',
+    qualificationOfHead: '',
+    studentSeries: '',
+    dateOfBirth: '',
+    panNumber: '',
+    aadharNumber: '',
+    instituteFullAddress: '',
+    
+    // Location & Contact
+    pincode: '',
+    state: '',
+    district: '',
+    numberOfStaff: '',
+    numberOfClassrooms: '',
+    totalComputers: '',
+    spaceOfCentre: '',
+    whatsappNumber: '',
+    contactNumber: '',
+    email: '',
+    password: '',
+    
+    // Facilities
+    reception: 'No',
+    staffRoom: 'No',
+    waterSupply: 'No',
+    toilet: 'No',
   });
 
   const [docs, setDocs] = useState({
-    registrationCert: null as File | null,
-    noc: null as File | null,
-    buildingProof: null as File | null,
-    facultyList: null as File | null,
+    ownerImage: null as File | null,
+    aadharCard: null as File | null,
+    signature: null as File | null,
+    addressProof: null as File | null,
+    agreement: null as File | null,
   });
 
   const [loading, setLoading] = useState(false);
@@ -43,6 +68,14 @@ export default function AffiliationForm() {
     </div>
   );
 
+  const states = [
+    'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh', 'Goa', 'Gujarat', 
+    'Haryana', 'Himachal Pradesh', 'Jharkhand', 'Karnataka', 'Kerala', 'Madhya Pradesh', 
+    'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland', 'Odisha', 'Punjab', 
+    'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Telangana', 'Tripura', 'Uttar Pradesh', 
+    'Uttarakhand', 'West Bengal'
+  ];
+
   return (
     <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-6 md:p-8">
       <div className="mb-6">
@@ -53,50 +86,43 @@ export default function AffiliationForm() {
       <form onSubmit={onSubmit} className="space-y-6">
         {section('Institute Information', '🏫')}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="sm:col-span-2">
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-1">Institute Owner Name <span className="text-red-500">*</span></label>
+            <input type="text" name="instituteOwnerName" value={form.instituteOwnerName} onChange={onChange} required placeholder="Enter Institute Owner Name"
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500" />
+          </div>
+          <div>
             <label className="block text-sm font-semibold text-gray-700 mb-1">Institute Name <span className="text-red-500">*</span></label>
-            <input type="text" name="instituteName" value={form.instituteName} onChange={onChange} required placeholder="Full legal name"
+            <input type="text" name="instituteName" value={form.instituteName} onChange={onChange} required placeholder="Enter Institute Name"
               className="w-full px-4 py-2.5 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500" />
           </div>
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-1">Institute Type <span className="text-red-500">*</span></label>
-            <select name="instituteType" value={form.instituteType} onChange={onChange} required
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500">
-              <option value="">Select</option>
-              <option value="nursing">Nursing College</option>
-              <option value="pharmacy">Pharmacy College</option>
-              <option value="paramedical">Paramedical Institute</option>
-              <option value="allied">Allied Health Sciences</option>
-              <option value="hospital">Hospital-based Training Center</option>
-            </select>
-          </div>
-          <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-1">Year of Establishment <span className="text-red-500">*</span></label>
-            <input type="number" name="estYear" value={form.estYear} onChange={onChange} required placeholder="e.g. 2010"
+            <label className="block text-sm font-semibold text-gray-700 mb-1">Qualification of Institute Head <span className="text-red-500">*</span></label>
+            <input type="text" name="qualificationOfHead" value={form.qualificationOfHead} onChange={onChange} required placeholder="Enter Qualification"
               className="w-full px-4 py-2.5 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500" />
           </div>
-          <div className="sm:col-span-2">
-            <label className="block text-sm font-semibold text-gray-700 mb-1">Website</label>
-            <input type="url" name="website" value={form.website} onChange={onChange} placeholder="https://yourinstitute.edu.in"
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-1">Student Series <span className="text-red-500">*</span></label>
+            <input type="text" name="studentSeries" value={form.studentSeries} onChange={onChange} required placeholder="Enter Prefix Roll No."
               className="w-full px-4 py-2.5 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500" />
           </div>
         </div>
 
-        {section('Principal Details', '👨‍💼')}
+        {section('Personal Details', '👨‍💼')}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-1">Principal Name <span className="text-red-500">*</span></label>
-            <input type="text" name="principalName" value={form.principalName} onChange={onChange} required placeholder="Full name"
+            <label className="block text-sm font-semibold text-gray-700 mb-1">Date of Birth <span className="text-red-500">*</span></label>
+            <input type="date" name="dateOfBirth" value={form.dateOfBirth} onChange={onChange} required
               className="w-full px-4 py-2.5 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500" />
           </div>
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-1">Principal Mobile <span className="text-red-500">*</span></label>
-            <input type="tel" name="principalMobile" value={form.principalMobile} onChange={onChange} required placeholder="10-digit mobile"
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500" />
+            <label className="block text-sm font-semibold text-gray-700 mb-1">Pan Number <span className="text-red-500">*</span></label>
+            <input type="text" name="panNumber" value={form.panNumber} onChange={onChange} required placeholder="Enter Pan Number" maxLength={10}
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 uppercase" />
           </div>
           <div className="sm:col-span-2">
-            <label className="block text-sm font-semibold text-gray-700 mb-1">Principal Email <span className="text-red-500">*</span></label>
-            <input type="email" name="principalEmail" value={form.principalEmail} onChange={onChange} required placeholder="principal@institute.edu.in"
+            <label className="block text-sm font-semibold text-gray-700 mb-1">Aadhar Number <span className="text-red-500">*</span></label>
+            <input type="text" name="aadharNumber" value={form.aadharNumber} onChange={onChange} required placeholder="Enter Aadhar Number" maxLength={12}
               className="w-full px-4 py-2.5 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500" />
           </div>
         </div>
@@ -104,77 +130,149 @@ export default function AffiliationForm() {
         {section('Address', '📍')}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="sm:col-span-2">
-            <label className="block text-sm font-semibold text-gray-700 mb-1">Full Address <span className="text-red-500">*</span></label>
-            <input type="text" name="address" value={form.address} onChange={onChange} required placeholder="Street, Area, Landmark"
+            <label className="block text-sm font-semibold text-gray-700 mb-1">Institute Full Address <span className="text-red-500">*</span></label>
+            <textarea name="instituteFullAddress" value={form.instituteFullAddress} onChange={onChange} required rows={3} placeholder="Institute Full Address"
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 resize-vertical" />
+          </div>
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-1">Pincode <span className="text-red-500">*</span></label>
+            <input type="text" name="pincode" value={form.pincode} onChange={onChange} required placeholder="Enter Pincode" maxLength={6}
               className="w-full px-4 py-2.5 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500" />
           </div>
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-1">State <span className="text-red-500">*</span></label>
-            <input type="text" name="state" value={form.state} onChange={onChange} required placeholder="e.g. Uttar Pradesh"
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500" />
+            <label className="block text-sm font-semibold text-gray-700 mb-1">Select State <span className="text-red-500">*</span></label>
+            <select name="state" value={form.state} onChange={onChange} required
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500">
+              <option value="">Select a State</option>
+              {states.map((state) => (
+                <option key={state} value={state}>{state}</option>
+              ))}
+            </select>
           </div>
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-1">City <span className="text-red-500">*</span></label>
-            <input type="text" name="city" value={form.city} onChange={onChange} required placeholder="e.g. Lucknow"
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500" />
-          </div>
-          <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-1">PIN Code <span className="text-red-500">*</span></label>
-            <input type="text" name="pincode" value={form.pincode} onChange={onChange} required placeholder="6-digit PIN"
+            <label className="block text-sm font-semibold text-gray-700 mb-1">Select District <span className="text-red-500">*</span></label>
+            <input type="text" name="district" value={form.district} onChange={onChange} required placeholder="Select a City"
               className="w-full px-4 py-2.5 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500" />
           </div>
         </div>
 
-        {section('Programs & Infrastructure', '🔬')}
+        {section('Infrastructure Details', '🔬')}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="sm:col-span-2">
-            <label className="block text-sm font-semibold text-gray-700 mb-1">Programs to be Offered <span className="text-red-500">*</span></label>
-            <textarea name="programs" value={form.programs} onChange={onChange} required rows={3} placeholder="e.g. B.Sc Nursing, D.Pharm, DMLT (separate with commas)"
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 resize-vertical" />
-          </div>
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-1">Total Student Intake <span className="text-red-500">*</span></label>
-            <input type="number" name="totalSeats" value={form.totalSeats} onChange={onChange} required placeholder="e.g. 120"
+            <label className="block text-sm font-semibold text-gray-700 mb-1">Number of Staff <span className="text-red-500">*</span></label>
+            <input type="number" name="numberOfStaff" value={form.numberOfStaff} onChange={onChange} required placeholder="Enter Number of Staff"
               className="w-full px-4 py-2.5 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500" />
           </div>
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-1">Lab Facility <span className="text-red-500">*</span></label>
-            <select name="labFacility" value={form.labFacility} onChange={onChange} required
+            <label className="block text-sm font-semibold text-gray-700 mb-1">Number of Class Rooms <span className="text-red-500">*</span></label>
+            <input type="number" name="numberOfClassrooms" value={form.numberOfClassrooms} onChange={onChange} required placeholder="Enter Number of Class Rooms"
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500" />
+          </div>
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-1">Total Computers <span className="text-red-500">*</span></label>
+            <input type="number" name="totalComputers" value={form.totalComputers} onChange={onChange} required placeholder="Enter Total Computers"
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500" />
+          </div>
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-1">Space of Centre <span className="text-red-500">*</span></label>
+            <input type="text" name="spaceOfCentre" value={form.spaceOfCentre} onChange={onChange} required placeholder="Enter Space of Centre"
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500" />
+          </div>
+        </div>
+
+        {section('Contact Details', '📞')}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-1">Whatsapp Number <span className="text-red-500">*</span></label>
+            <input type="tel" name="whatsappNumber" value={form.whatsappNumber} onChange={onChange} required placeholder="Enter Whatsapp Number" maxLength={10}
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500" />
+          </div>
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-1">Contact Number <span className="text-red-500">*</span></label>
+            <input type="tel" name="contactNumber" value={form.contactNumber} onChange={onChange} required placeholder="Enter Contact Number" maxLength={10}
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500" />
+          </div>
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-1">E-Mail ID <span className="text-red-500">*</span></label>
+            <input type="email" name="email" value={form.email} onChange={onChange} required placeholder="Enter E-Mail ID"
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500" />
+          </div>
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-1">Password <span className="text-red-500">*</span></label>
+            <input type="password" name="password" value={form.password} onChange={onChange} required placeholder="Enter Password" minLength={8}
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500" />
+            <p className="text-xs text-gray-500 mt-1">Use 8 or more characters with a mix of letters, numbers & symbols.</p>
+          </div>
+        </div>
+
+        {section('Facilities', '🏢')}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-1">Reception <span className="text-red-500">*</span></label>
+            <select name="reception" value={form.reception} onChange={onChange} required
               className="w-full px-4 py-2.5 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500">
-              <option value="">Select</option>
-              <option value="yes">Yes - Fully Equipped</option>
-              <option value="partial">Partial</option>
-              <option value="no">No</option>
+              <option value="No">No</option>
+              <option value="Yes">Yes</option>
             </select>
           </div>
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-1">Hostel Facility <span className="text-red-500">*</span></label>
-            <select name="hostelFacility" value={form.hostelFacility} onChange={onChange} required
+            <label className="block text-sm font-semibold text-gray-700 mb-1">Staff Room <span className="text-red-500">*</span></label>
+            <select name="staffRoom" value={form.staffRoom} onChange={onChange} required
               className="w-full px-4 py-2.5 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500">
-              <option value="">Select</option>
-              <option value="yes">Yes - Boys & Girls</option>
-              <option value="boys">Yes - Boys Only</option>
-              <option value="girls">Yes - Girls Only</option>
-              <option value="no">No</option>
+              <option value="No">No</option>
+              <option value="Yes">Yes</option>
+            </select>
+          </div>
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-1">Water Supply <span className="text-red-500">*</span></label>
+            <select name="waterSupply" value={form.waterSupply} onChange={onChange} required
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500">
+              <option value="No">No</option>
+              <option value="Yes">Yes</option>
+            </select>
+          </div>
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-1">Toilet <span className="text-red-500">*</span></label>
+            <select name="toilet" value={form.toilet} onChange={onChange} required
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500">
+              <option value="No">No</option>
+              <option value="Yes">Yes</option>
             </select>
           </div>
         </div>
 
         {section('Document Uploads', '📎')}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {[
-            { label: 'Institute Registration Certificate', name: 'registrationCert', file: docs.registrationCert },
-            { label: 'NOC from Local Authority', name: 'noc', file: docs.noc },
-            { label: 'Building Ownership Proof', name: 'buildingProof', file: docs.buildingProof },
-            { label: 'Faculty List with Qualifications', name: 'facultyList', file: docs.facultyList },
-          ].map((d) => (
-            <div key={d.name}>
-              <label className="block text-sm font-semibold text-gray-700 mb-1">{d.label} <span className="text-red-500">*</span></label>
-              <input type="file" name={d.name} onChange={onFileChange} required accept=".pdf,.jpg,.jpeg,.png"
-                className="w-full px-4 py-2 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-purple-50 file:text-purple-700" />
-              {d.file && <p className="text-xs text-green-600 mt-1">✓ {d.file.name}</p>}
-            </div>
-          ))}
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-1">Upload Image of Owner <span className="text-red-500">*</span></label>
+            <input type="file" name="ownerImage" onChange={onFileChange} required accept=".jpg,.jpeg,.png"
+              className="w-full px-4 py-2 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-purple-50 file:text-purple-700" />
+            {docs.ownerImage && <p className="text-xs text-green-600 mt-1">✓ {docs.ownerImage.name}</p>}
+          </div>
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-1">Aadhar Card <span className="text-red-500">*</span></label>
+            <input type="file" name="aadharCard" onChange={onFileChange} required accept=".pdf,.jpg,.jpeg,.png"
+              className="w-full px-4 py-2 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-purple-50 file:text-purple-700" />
+            {docs.aadharCard && <p className="text-xs text-green-600 mt-1">✓ {docs.aadharCard.name}</p>}
+          </div>
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-1">Signature <span className="text-red-500">*</span></label>
+            <input type="file" name="signature" onChange={onFileChange} required accept=".pdf,.jpg,.jpeg,.png"
+              className="w-full px-4 py-2 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-purple-50 file:text-purple-700" />
+            {docs.signature && <p className="text-xs text-green-600 mt-1">✓ {docs.signature.name}</p>}
+          </div>
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-1">Address Proof</label>
+            <input type="file" name="addressProof" onChange={onFileChange} accept=".pdf,.jpg,.jpeg,.png"
+              className="w-full px-4 py-2 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-purple-50 file:text-purple-700" />
+            {docs.addressProof && <p className="text-xs text-green-600 mt-1">✓ {docs.addressProof.name}</p>}
+          </div>
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-1">Agreement</label>
+            <input type="file" name="agreement" onChange={onFileChange} accept=".pdf,.jpg,.jpeg,.png"
+              className="w-full px-4 py-2 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-purple-50 file:text-purple-700" />
+            {docs.agreement && <p className="text-xs text-green-600 mt-1">✓ {docs.agreement.name}</p>}
+          </div>
         </div>
 
         <div className="flex items-start gap-3 p-4 bg-purple-50 border border-purple-200 rounded-xl">

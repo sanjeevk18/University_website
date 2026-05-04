@@ -65,13 +65,18 @@ export interface FeeRecord {
 // Exam Types
 export interface Exam {
   id: string;
-  name: string;
+  examCode: string;
+  examName: string;
   course: string;
   semester: string;
-  startDate: string;
-  endDate: string;
+  examDate: string;
+  examTime: string;
+  duration: string;
+  totalMarks: number;
+  passingMarks: number;
+  venue: string;
   status: 'Scheduled' | 'Ongoing' | 'Completed' | 'Cancelled';
-  totalStudents: number;
+  subjects: string[];
 }
 
 // Result Types
@@ -80,23 +85,24 @@ export interface Result {
   studentId: string;
   studentName: string;
   enrollmentNo: string;
-  examId: string;
+  course: string;
   semester: string;
+  examId: string;
+  examName: string;
   subjects: SubjectResult[];
-  sgpa: number;
-  cgpa: number;
-  status: 'Pass' | 'Fail' | 'Pending';
-  publishedDate?: string;
+  totalMarks: number;
+  marksObtained: number;
+  percentage: number;
+  grade: string;
+  result: 'Pass' | 'Fail';
+  publishedDate: string;
 }
 
 export interface SubjectResult {
-  subjectCode: string;
-  subjectName: string;
-  internal: number;
-  external: number;
-  total: number;
+  name: string;
+  marksObtained: number;
+  totalMarks: number;
   grade: string;
-  status: 'Pass' | 'Fail';
 }
 
 // Certificate Types
@@ -106,9 +112,12 @@ export interface Certificate {
   studentId: string;
   studentName: string;
   enrollmentNo: string;
-  type: 'Provisional' | 'Final' | 'Migration' | 'Character' | 'Bonafide' | 'Transfer';
+  course: string;
+  certificateType: 'Provisional Certificate' | 'Degree Certificate' | 'Migration Certificate' | 'Character Certificate' | 'Bonafide Certificate' | 'Transfer Certificate';
   issueDate: string;
+  validUpto?: string;
   status: 'Issued' | 'Pending' | 'Rejected';
+  issuedBy: string;
 }
 
 // Staff Types

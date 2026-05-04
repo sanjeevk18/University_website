@@ -2,6 +2,9 @@ import { studentsData } from '@/data/students';
 import { coursesData } from '@/data/courses';
 import { feesData } from '@/data/fees';
 import { staffData } from '@/data/staff';
+import { examsData } from '@/data/exams';
+import { resultsData } from '@/data/results';
+import { certificatesData } from '@/data/certificates';
 import { DashboardStats } from '@/types';
 
 // Central Data Store
@@ -10,6 +13,9 @@ export const store = {
   courses: coursesData,
   fees: feesData,
   staff: staffData,
+  exams: examsData,
+  results: resultsData,
+  certificates: certificatesData,
 };
 
 // Dashboard Statistics Calculator
@@ -71,4 +77,55 @@ export const getPendingFees = () => {
 
 export const getActiveStaff = () => {
   return store.staff.filter(s => s.status === 'Active');
+};
+
+// Exam Helper Functions
+export const getExamById = (id: string) => {
+  return store.exams.find(e => e.id === id);
+};
+
+export const getExamsByCourse = (course: string) => {
+  return store.exams.filter(e => e.course === course);
+};
+
+export const getUpcomingExams = () => {
+  return store.exams.filter(e => e.status === 'Scheduled');
+};
+
+export const getCompletedExams = () => {
+  return store.exams.filter(e => e.status === 'Completed');
+};
+
+// Result Helper Functions
+export const getResultById = (id: string) => {
+  return store.results.find(r => r.id === id);
+};
+
+export const getResultsByStudentId = (studentId: string) => {
+  return store.results.filter(r => r.studentId === studentId);
+};
+
+export const getResultsByExamId = (examId: string) => {
+  return store.results.filter(r => r.examId === examId);
+};
+
+export const getPassedResults = () => {
+  return store.results.filter(r => r.result === 'Pass');
+};
+
+// Certificate Helper Functions
+export const getCertificateById = (id: string) => {
+  return store.certificates.find(c => c.id === id);
+};
+
+export const getCertificatesByStudentId = (studentId: string) => {
+  return store.certificates.filter(c => c.studentId === studentId);
+};
+
+export const getIssuedCertificates = () => {
+  return store.certificates.filter(c => c.status === 'Issued');
+};
+
+export const getPendingCertificates = () => {
+  return store.certificates.filter(c => c.status === 'Pending');
 };

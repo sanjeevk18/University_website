@@ -4,6 +4,13 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import OverviewTab from './tabs/OverviewTab';
 import StudentsTab from './tabs/StudentsTab';
+import CoursesTab from './tabs/CoursesTab';
+import FeesTab from './tabs/FeesTab';
+import ExamsTab from './tabs/ExamsTab';
+import ResultsTab from './tabs/ResultsTab';
+import CertificatesTab from './tabs/CertificatesTab';
+import StaffTab from './tabs/StaffTab';
+import ReportsTab from './tabs/ReportsTab';
 
 type Tab = 'overview' | 'students' | 'courses' | 'fees' | 'exams' | 'results' | 'certificates' | 'staff' | 'reports' | 'settings';
 
@@ -155,13 +162,13 @@ export default function AdminDashboard() {
         <main className="flex-1 p-4 lg:p-8 max-w-7xl">
           {activeTab === 'overview' && <OverviewTab />}
           {activeTab === 'students' && <StudentsTab />}
-          {activeTab === 'courses' && <div className="text-center py-20 text-gray-500">Courses Management - Coming Soon</div>}
-          {activeTab === 'fees' && <div className="text-center py-20 text-gray-500">Fee Management - Coming Soon</div>}
-          {activeTab === 'exams' && <div className="text-center py-20 text-gray-500">Exam Management - Coming Soon</div>}
-          {activeTab === 'results' && <div className="text-center py-20 text-gray-500">Results Management - Coming Soon</div>}
-          {activeTab === 'certificates' && <div className="text-center py-20 text-gray-500">Certificate Management - Coming Soon</div>}
-          {activeTab === 'staff' && <div className="text-center py-20 text-gray-500">Staff Management - Coming Soon</div>}
-          {activeTab === 'reports' && <div className="text-center py-20 text-gray-500">Reports & Analytics - Coming Soon</div>}
+          {activeTab === 'courses' && <CoursesTab />}
+          {activeTab === 'fees' && <FeesTab />}
+          {activeTab === 'exams' && <ExamsTab />}
+          {activeTab === 'results' && <ResultsTab />}
+          {activeTab === 'certificates' && <CertificatesTab />}
+          {activeTab === 'staff' && <StaffTab />}
+          {activeTab === 'reports' && <ReportsTab />}
           {activeTab === 'settings' && <div className="text-center py-20 text-gray-500">Settings - Coming Soon</div>}
         </main>
       </div>

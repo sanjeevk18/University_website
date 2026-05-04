@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 type Tab = 'login' | 'register';
-type Role = '' | 'teacher' | 'institute';
 
 /* ─── small reusable input ─── */
 function Field({
@@ -183,16 +182,7 @@ function LoginForm() {
 
 /* ─── REGISTER ─── */
 function RegisterForm() {
-  const [role, setRole] = useState<Role>('');
   const [loading, setLoading] = useState(false);
-
-  /* teacher fields */
-  const [teacher, setTeacher] = useState({
-    fullName: '', dob: '', gender: '', mobile: '', email: '', aadhar: '',
-    qualification: '', specialization: '', experience: '', designation: '',
-    centerName: '', centerCode: '', address: '', state: '', city: '', pincode: '',
-    password: '', confirmPassword: '',
-  });
 
   /* institute fields */
   const [institute, setInstitute] = useState({
@@ -215,9 +205,6 @@ function RegisterForm() {
     noc: null as File | null,
   });
 
-  const onTeacher = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
-    setTeacher((p) => ({ ...p, [e.target.name]: e.target.value }));
-
   const onInstitute = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
     setInstitute((p) => ({ ...p, [e.target.name]: e.target.value }));
 
@@ -236,12 +223,6 @@ function RegisterForm() {
     'Uttar Pradesh','Delhi','Maharashtra','Bihar','Madhya Pradesh',
     'Rajasthan','Gujarat','West Bengal','Karnataka','Tamil Nadu','Other',
   ].map((s) => ({ value: s, label: s }));
-
-  const genders = [
-    { value: 'male', label: 'Male' },
-    { value: 'female', label: 'Female' },
-    { value: 'other', label: 'Other' },
-  ];
 
   const qualifications = [
     { value: 'bsc', label: 'B.Sc' },
@@ -272,195 +253,131 @@ function RegisterForm() {
 
   return (
     <form onSubmit={onSubmit} className="space-y-4">
-      {/* Role selector — dropdown */}
-      <div>
-        <label className="block text-sm font-semibold text-gray-700 mb-1.5">
-          I am registering as <span className="text-red-500">*</span>
-        </label>
-        <select
-          value={role}
-          onChange={(e) => setRole(e.target.value as Role)}
-          required
-          className="w-full px-4 py-3 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition bg-white"
-        >
-          <option value="">-- Select your role --</option>
-          <option value="teacher">👨‍🏫 Teacher / Faculty</option>
-          <option value="institute">🏫 Institute Owner</option>
-        </select>
-      </div>
-
-      {/* ── TEACHER FIELDS ── */}
-      {role === 'teacher' && (
-        <div className="space-y-4">
-          {sectionHead('Personal Information', '👤')}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <Field label="Full Name" name="fullName" placeholder="As per Aadhar card" value={teacher.fullName} onChange={onTeacher} />
-            <Field label="Date of Birth" name="dob" type="date" placeholder="" value={teacher.dob} onChange={onTeacher} />
-            <SelectField label="Gender" name="gender" placeholder="Select gender" value={teacher.gender} onChange={onTeacher} options={genders} />
-            <Field label="Mobile Number" name="mobile" type="tel" placeholder="10-digit mobile" value={teacher.mobile} onChange={onTeacher} />
-            <Field label="Email Address" name="email" type="email" placeholder="your@email.com" value={teacher.email} onChange={onTeacher} />
-            <Field label="Aadhar Number" name="aadhar" placeholder="12-digit Aadhar" value={teacher.aadhar} onChange={onTeacher} />
-          </div>
-
-          {sectionHead('Academic & Professional Details', '🎓')}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <SelectField label="Highest Qualification" name="qualification" placeholder="Select qualification" value={teacher.qualification} onChange={onTeacher} options={qualifications} />
-            <Field label="Specialization / Subject" name="specialization" placeholder="e.g. Pharmacology, Nursing" value={teacher.specialization} onChange={onTeacher} />
-            <Field label="Years of Experience" name="experience" type="number" placeholder="e.g. 5" value={teacher.experience} onChange={onTeacher} />
-            <Field label="Current Designation" name="designation" placeholder="e.g. Lecturer, Asst. Professor" value={teacher.designation} onChange={onTeacher} />
-          </div>
-
-          {sectionHead('Affiliated Center Details', '🏥')}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <Field label="Center / Institute Name" name="centerName" placeholder="Name of your institute" value={teacher.centerName} onChange={onTeacher} />
-            <Field label="Center Affiliation Code" name="centerCode" placeholder="e.g. SAHCU-CTR-2024-001" value={teacher.centerCode} onChange={onTeacher} hint="Leave blank if not yet affiliated" required={false} />
-            <div className="sm:col-span-2">
-              <Field label="Institute Address" name="address" placeholder="Full address" value={teacher.address} onChange={onTeacher} />
-            </div>
-            <SelectField label="State" name="state" placeholder="Select state" value={teacher.state} onChange={onTeacher} options={states} />
-            <Field label="City" name="city" placeholder="City" value={teacher.city} onChange={onTeacher} />
-            <Field label="PIN Code" name="pincode" placeholder="6-digit PIN" value={teacher.pincode} onChange={onTeacher} />
-          </div>
-
-          {sectionHead('Set Password', '🔒')}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <Field label="Password" name="password" type="password" placeholder="Min 8 characters" value={teacher.password} onChange={onTeacher} />
-            <Field label="Confirm Password" name="confirmPassword" type="password" placeholder="Re-enter password" value={teacher.confirmPassword} onChange={onTeacher} />
-          </div>
-        </div>
-      )}
-
       {/* ── INSTITUTE FIELDS ── */}
-      {role === 'institute' && (
-        <div className="space-y-4">
-          {sectionHead('Institute Basic Information', '🏫')}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="sm:col-span-2">
-              <Field label="Institute Name" name="instituteName" placeholder="Full legal name of institute" value={institute.instituteName} onChange={onInstitute} />
-            </div>
-            <SelectField label="Institute Type" name="instituteType" placeholder="Select type" value={institute.instituteType} onChange={onInstitute} options={instituteTypes} />
-            <Field label="Existing Affiliation No." name="affiliationNo" placeholder="If already affiliated elsewhere" value={institute.affiliationNo} onChange={onInstitute} required={false} />
-            <Field label="Year of Establishment" name="estYear" type="number" placeholder="e.g. 2010" value={institute.estYear} onChange={onInstitute} />
-            <Field label="Institute Website" name="website" type="url" placeholder="https://yourinstitute.edu.in" value={institute.website} onChange={onInstitute} required={false} />
+      <div className="space-y-4">
+        {sectionHead('Institute Basic Information', '🏫')}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="sm:col-span-2">
+            <Field label="Institute Name" name="instituteName" placeholder="Full legal name of institute" value={institute.instituteName} onChange={onInstitute} />
           </div>
+          <SelectField label="Institute Type" name="instituteType" placeholder="Select type" value={institute.instituteType} onChange={onInstitute} options={instituteTypes} />
+          <Field label="Existing Affiliation No." name="affiliationNo" placeholder="If already affiliated elsewhere" value={institute.affiliationNo} onChange={onInstitute} required={false} />
+          <Field label="Year of Establishment" name="estYear" type="number" placeholder="e.g. 2010" value={institute.estYear} onChange={onInstitute} />
+          <Field label="Institute Website" name="website" type="url" placeholder="https://yourinstitute.edu.in" value={institute.website} onChange={onInstitute} required={false} />
+        </div>
 
-          {sectionHead('Owner / Director Details', '👔')}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <Field label="Owner / Director Name" name="ownerName" placeholder="Full name" value={institute.ownerName} onChange={onInstitute} />
-            <Field label="Owner Mobile" name="ownerMobile" type="tel" placeholder="10-digit mobile" value={institute.ownerMobile} onChange={onInstitute} />
-            <Field label="Owner Email" name="ownerEmail" type="email" placeholder="owner@institute.edu.in" value={institute.ownerEmail} onChange={onInstitute} />
-            <Field label="Owner Aadhar Number" name="ownerAadhar" placeholder="12-digit Aadhar" value={institute.ownerAadhar} onChange={onInstitute} />
-            <Field label="Owner PAN Number" name="ownerPan" placeholder="e.g. ABCDE1234F" value={institute.ownerPan} onChange={onInstitute} />
+        {sectionHead('Owner / Director Details', '👔')}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <Field label="Owner / Director Name" name="ownerName" placeholder="Full name" value={institute.ownerName} onChange={onInstitute} />
+          <Field label="Owner Mobile" name="ownerMobile" type="tel" placeholder="10-digit mobile" value={institute.ownerMobile} onChange={onInstitute} />
+          <Field label="Owner Email" name="ownerEmail" type="email" placeholder="owner@institute.edu.in" value={institute.ownerEmail} onChange={onInstitute} />
+          <Field label="Owner Aadhar Number" name="ownerAadhar" placeholder="12-digit Aadhar" value={institute.ownerAadhar} onChange={onInstitute} />
+          <Field label="Owner PAN Number" name="ownerPan" placeholder="e.g. ABCDE1234F" value={institute.ownerPan} onChange={onInstitute} />
+        </div>
+
+        {sectionHead('Principal / Head of Institution', '🧑‍💼')}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <Field label="Principal Name" name="principalName" placeholder="Full name" value={institute.principalName} onChange={onInstitute} />
+          <Field label="Principal Mobile" name="principalMobile" type="tel" placeholder="10-digit mobile" value={institute.principalMobile} onChange={onInstitute} />
+          <Field label="Principal Email" name="principalEmail" type="email" placeholder="principal@institute.edu.in" value={institute.principalEmail} onChange={onInstitute} />
+          <SelectField label="Principal Qualification" name="principalQualification" placeholder="Select qualification" value={institute.principalQualification} onChange={onInstitute} options={qualifications} />
+        </div>
+
+        {sectionHead('Address & Location', '📍')}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="sm:col-span-2">
+            <Field label="Full Address" name="address" placeholder="Street, Area, Landmark" value={institute.address} onChange={onInstitute} />
           </div>
+          <SelectField label="State" name="state" placeholder="Select state" value={institute.state} onChange={onInstitute} options={states} />
+          <Field label="City / District" name="city" placeholder="City" value={institute.city} onChange={onInstitute} />
+          <Field label="PIN Code" name="pincode" placeholder="6-digit PIN" value={institute.pincode} onChange={onInstitute} />
+        </div>
 
-          {sectionHead('Principal / Head of Institution', '🧑‍💼')}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <Field label="Principal Name" name="principalName" placeholder="Full name" value={institute.principalName} onChange={onInstitute} />
-            <Field label="Principal Mobile" name="principalMobile" type="tel" placeholder="10-digit mobile" value={institute.principalMobile} onChange={onInstitute} />
-            <Field label="Principal Email" name="principalEmail" type="email" placeholder="principal@institute.edu.in" value={institute.principalEmail} onChange={onInstitute} />
-            <SelectField label="Principal Qualification" name="principalQualification" placeholder="Select qualification" value={institute.principalQualification} onChange={onInstitute} options={qualifications} />
+        {sectionHead('Programs & Infrastructure', '🔬')}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="sm:col-span-2">
+            <Field label="Programs Offered" name="programs" placeholder="e.g. B.Sc Nursing, D.Pharm, DMLT" value={institute.programs} onChange={onInstitute} hint="Separate multiple programs with commas" />
           </div>
+          <Field label="Total Student Intake (per year)" name="totalSeats" type="number" placeholder="e.g. 120" value={institute.totalSeats} onChange={onInstitute} />
+          <SelectField label="Lab Facility Available?" name="labFacility" placeholder="Select" value={institute.labFacility} onChange={onInstitute}
+            options={[{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }, { value: 'partial', label: 'Partial' }]} />
+          <SelectField label="Hostel Facility Available?" name="hostelFacility" placeholder="Select" value={institute.hostelFacility} onChange={onInstitute}
+            options={[{ value: 'yes', label: 'Yes — Boys & Girls' }, { value: 'boys', label: 'Yes — Boys Only' }, { value: 'girls', label: 'Yes — Girls Only' }, { value: 'no', label: 'No' }]} />
+        </div>
 
-          {sectionHead('Address & Location', '📍')}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="sm:col-span-2">
-              <Field label="Full Address" name="address" placeholder="Street, Area, Landmark" value={institute.address} onChange={onInstitute} />
-            </div>
-            <SelectField label="State" name="state" placeholder="Select state" value={institute.state} onChange={onInstitute} options={states} />
-            <Field label="City / District" name="city" placeholder="City" value={institute.city} onChange={onInstitute} />
-            <Field label="PIN Code" name="pincode" placeholder="6-digit PIN" value={institute.pincode} onChange={onInstitute} />
-          </div>
-
-          {sectionHead('Programs & Infrastructure', '🔬')}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="sm:col-span-2">
-              <Field label="Programs Offered" name="programs" placeholder="e.g. B.Sc Nursing, D.Pharm, DMLT" value={institute.programs} onChange={onInstitute} hint="Separate multiple programs with commas" />
-            </div>
-            <Field label="Total Student Intake (per year)" name="totalSeats" type="number" placeholder="e.g. 120" value={institute.totalSeats} onChange={onInstitute} />
-            <SelectField label="Lab Facility Available?" name="labFacility" placeholder="Select" value={institute.labFacility} onChange={onInstitute}
-              options={[{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }, { value: 'partial', label: 'Partial' }]} />
-            <SelectField label="Hostel Facility Available?" name="hostelFacility" placeholder="Select" value={institute.hostelFacility} onChange={onInstitute}
-              options={[{ value: 'yes', label: 'Yes — Boys & Girls' }, { value: 'boys', label: 'Yes — Boys Only' }, { value: 'girls', label: 'Yes — Girls Only' }, { value: 'no', label: 'No' }]} />
-          </div>
-
-          {sectionHead('Document Uploads', '📎')}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {sectionHead('Document Uploads', '📎')}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <FileUpload
+            label="Institute Registration Certificate"
+            name="registrationCert"
+            onChange={onFileChange}
+            file={docs.registrationCert}
+          />
+          <FileUpload
+            label="Existing Affiliation Certificate"
+            name="affiliationCert"
+            onChange={onFileChange}
+            file={docs.affiliationCert}
+            required={false}
+          />
+          <FileUpload
+            label="Owner Aadhar Card"
+            name="ownerAadhar"
+            onChange={onFileChange}
+            file={docs.ownerAadhar}
+          />
+          <FileUpload
+            label="Owner PAN Card"
+            name="ownerPan"
+            onChange={onFileChange}
+            file={docs.ownerPan}
+          />
+          <FileUpload
+            label="Principal Qualification Certificate"
+            name="principalQualification"
+            onChange={onFileChange}
+            file={docs.principalQualification}
+          />
+          <FileUpload
+            label="Building Ownership / Lease Proof"
+            name="buildingProof"
+            onChange={onFileChange}
+            file={docs.buildingProof}
+          />
+          <div className="sm:col-span-2">
             <FileUpload
-              label="Institute Registration Certificate"
-              name="registrationCert"
+              label="NOC from Local Authority (if applicable)"
+              name="noc"
               onChange={onFileChange}
-              file={docs.registrationCert}
-            />
-            <FileUpload
-              label="Existing Affiliation Certificate"
-              name="affiliationCert"
-              onChange={onFileChange}
-              file={docs.affiliationCert}
+              file={docs.noc}
               required={false}
             />
-            <FileUpload
-              label="Owner Aadhar Card"
-              name="ownerAadhar"
-              onChange={onFileChange}
-              file={docs.ownerAadhar}
-            />
-            <FileUpload
-              label="Owner PAN Card"
-              name="ownerPan"
-              onChange={onFileChange}
-              file={docs.ownerPan}
-            />
-            <FileUpload
-              label="Principal Qualification Certificate"
-              name="principalQualification"
-              onChange={onFileChange}
-              file={docs.principalQualification}
-            />
-            <FileUpload
-              label="Building Ownership / Lease Proof"
-              name="buildingProof"
-              onChange={onFileChange}
-              file={docs.buildingProof}
-            />
-            <div className="sm:col-span-2">
-              <FileUpload
-                label="NOC from Local Authority (if applicable)"
-                name="noc"
-                onChange={onFileChange}
-                file={docs.noc}
-                required={false}
-              />
-            </div>
-          </div>
-
-          {sectionHead('Set Login Password', '🔒')}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <Field label="Password" name="password" type="password" placeholder="Min 8 characters" value={institute.password} onChange={onInstitute} />
-            <Field label="Confirm Password" name="confirmPassword" type="password" placeholder="Re-enter password" value={institute.confirmPassword} onChange={onInstitute} />
           </div>
         </div>
-      )}
+
+        {sectionHead('Set Login Password', '🔒')}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <Field label="Password" name="password" type="password" placeholder="Min 8 characters" value={institute.password} onChange={onInstitute} />
+          <Field label="Confirm Password" name="confirmPassword" type="password" placeholder="Re-enter password" value={institute.confirmPassword} onChange={onInstitute} />
+        </div>
+      </div>
 
       {/* Declaration */}
-      {role && (
-        <div className="flex items-start gap-3 p-4 bg-blue-50 border border-blue-200 rounded-xl">
-          <input type="checkbox" id="declare" required className="w-4 h-4 accent-blue-600 mt-0.5 flex-shrink-0" />
-          <label htmlFor="declare" className="text-xs text-gray-700 leading-relaxed">
-            I hereby declare that all the information provided above is true and correct to the best of my knowledge.
-            I understand that any false information may result in cancellation of registration.
-          </label>
-        </div>
-      )}
+      <div className="flex items-start gap-3 p-4 bg-blue-50 border border-blue-200 rounded-xl">
+        <input type="checkbox" id="declare" required className="w-4 h-4 accent-blue-600 mt-0.5 flex-shrink-0" />
+        <label htmlFor="declare" className="text-xs text-gray-700 leading-relaxed">
+          I hereby declare that all the information provided above is true and correct to the best of my knowledge.
+          I understand that any false information may result in cancellation of registration.
+        </label>
+      </div>
 
       {/* Submit */}
-      {role && (
-        <button type="submit" disabled={loading}
-          className="w-full bg-blue-600 text-white py-3 rounded-xl font-bold text-sm hover:bg-blue-700 active:scale-95 transition-all disabled:opacity-60 flex items-center justify-center gap-2">
-          {loading
-            ? <><svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" /><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" /></svg>Submitting...</>
-            : role === 'teacher' ? 'Submit Teacher Registration' : 'Submit Institute Registration'}
-        </button>
-      )}
+      <button type="submit" disabled={loading}
+        className="w-full bg-blue-600 text-white py-3 rounded-xl font-bold text-sm hover:bg-blue-700 active:scale-95 transition-all disabled:opacity-60 flex items-center justify-center gap-2">
+        {loading
+          ? <><svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" /><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" /></svg>Submitting...</>
+          : 'Submit Institute Registration'}
+      </button>
     </form>
   );
 }
@@ -494,7 +411,7 @@ export default function CenterAuthForm({ defaultTab = 'login' }: { defaultTab?: 
           <p className="text-gray-500 text-sm mt-1">
             {tab === 'login'
               ? 'Sign in to access your center portal'
-              : 'Register as a teacher or institute to get started'}
+              : 'Register your institute to get started'}
           </p>
         </div>
 

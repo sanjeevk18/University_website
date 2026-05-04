@@ -1,5 +1,6 @@
 import HeroSlider from "@/components/hero/HeroSlider";
 import WelcomeSection from "@/components/welcome/WelcomeSection";
+import NoticeBoardSection from "@/components/news/NoticeBoardSection";
 import NewsNotifications from "@/components/news/NewsNotifications";
 import ServicesGrid from "@/components/services/ServicesGrid";
 import Features from "@/components/features/Features";
@@ -17,6 +18,7 @@ export default function Home(): React.JSX.Element {
     <div className="min-h-screen bg-white">
       <HeroSlider />
       <WelcomeSection />
+      <NoticeBoardSection />
       {/* <QuickInquiryForm /> */}
       <ServicesGrid />
       <Features />
